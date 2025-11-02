@@ -1,35 +1,53 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { useEffect } from 'react';
+import { Tabs, Stack, useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '../../hooks/useAuth';     
+import { theme } from '../../constants/theme';      
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+export default function TabsLayout() {
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+ 
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.replace('/login');                     
+    }
+  }, [isSignedIn, router]);
+
+
+  if (!isSignedIn) return null;
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <Tabs
+        screenOptions={{
+          headerTitle: 'Buscando a mi gato',
+          headerTitleAlign: 'center',
+          headerStyle: { backgroundColor: theme.colors.card },
+          headerTintColor: theme.colors.text,
+          tabBarStyle: { backgroundColor: theme.colors.tabBg, borderTopColor: theme.colors.border },
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarInactiveTintColor: theme.colors.tabInactive,
+          
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Home',
+            tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" color={color} size={size} />,
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Perfil',
+            tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" color={color} size={size} />,
+          }}
+        />
+      </Tabs>
+    </>
   );
 }

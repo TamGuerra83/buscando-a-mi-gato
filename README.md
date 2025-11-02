@@ -1,50 +1,56 @@
-# Welcome to your Expo app 👋
+# 🐾 Proyecto: **Buscando a mi Gato**
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil desarrollada con **React Native** y **Expo Router**, utilizando **TypeScript**.  
+El objetivo principal del proyecto es implementar un flujo básico de **inicio de sesión**, manejo de **estado global** mediante Hooks y navegación con **pestañas (Tabs)**.
 
-## Get started
+---
 
-1. Install dependencies
+## 📱 Descripción general
 
-   ```bash
-   npm install
-   ```
+Al abrir la aplicación, se muestra la pantalla de **Login**, donde el usuario debe ingresar su correo y contraseña.  
+Si la contraseña es correcta (`1234`), la aplicación muestra una alerta de éxito y redirige al **Home**, donde aparece un mensaje de bienvenida y la opción de **cerrar sesión**.  
+En el **Perfil**, se muestra el correo con el que el usuario inició sesión.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🧠 Lógica general del proyecto
 
-In the output, you'll find options to open the app in a
+### 🔹 1. Flujo principal
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- La app siempre inicia en la pantalla de **Login**.
+- Si el usuario inicia sesión correctamente, accede al grupo de pestañas `(tabs)`, donde están las pantallas **Home** y **Perfil**.
+- Si no hay sesión activa, la aplicación redirige automáticamente al **Login**.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+📁 **Estructura general del proyecto:**
 
-## Get a fresh project
 
-When you're ready, run:
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 🔹 2. Contexto de autenticación (`useAuth.tsx`)
 
-## Learn more
+- Controla el estado global de la sesión.
+- Contiene:
+  - `isSignedIn`: indica si el usuario está logueado.
+  - `email`: almacena el correo ingresado.
+  - `signIn(email)`: inicia sesión.
+  - `signOut()`: cierra sesión.
 
-To learn more about developing your project with Expo, look at the following resources:
+Este contexto se aplica a toda la app a través del **AuthProvider** en el archivo `app/_layout.tsx`.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+### 🔹 3. Pantalla de Login (`login.tsx`)
 
-Join our community of developers creating universal apps.
+- Maneja los campos de **correo** y **contraseña** con `useState`.
+- Valida los datos ingresados:
+  - Si hay campos vacíos → alerta de advertencia.
+  - Si la contraseña es incorrecta → alerta de error.
+  - Si la contraseña es correcta (`1234`) → inicia sesión y redirige al Home.
+- Usa `useEffect` para detectar cuando el usuario inicia sesión y navegar automáticamente.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+🧩 **Acción principal:**
+```tsx
+if (isSignedIn) {
+  router.replace('/'); // redirige al Home después de iniciar sesión
+}
