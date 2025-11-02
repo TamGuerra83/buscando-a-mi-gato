@@ -54,3 +54,4 @@ Este contexto se aplica a toda la app a través del **AuthProvider** en el archi
 if (isSignedIn) {
   router.replace('/'); // redirige al Home después de iniciar sesión
 }
+# buscando-a-mi-gato
