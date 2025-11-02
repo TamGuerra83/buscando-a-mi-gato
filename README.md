@@ -55,3 +55,8 @@ if (isSignedIn) {
   router.replace('/'); // redirige al Home después de iniciar sesión
 }
 # buscando-a-mi-gato
+
+## Enlaces de Interés
+
+* [Video Demo del Login](https://drive.google.com/file/d/1OH3RR0_Mg55rvYeq_jVcLLmxO79C4e6t/view?usp=sharing)
+* [Video desde web](https://www.loom.com/share/8ee9dec7314f4aa3a6d42022dab684d4)
